@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const https = require('https');
+require('dotenv').config()
 
 const port = process.env.PORT || 3001
 const host = process.env.HOST || 'localhost'
@@ -11,6 +13,7 @@ app.get('/', (req, res) => {
 app.get('/auth', (req, res) => {
   const base_url = 'https://slack.com/oauth/authorize'
   const client_id = process.env.CLIENT_ID;
+  console.log('client_id is', client_id);
 
   // space - separated list of OAuth scopes, indicating which parts of the
   // Slack user's account you'd like your app to be able to access.The
