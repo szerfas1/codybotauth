@@ -49,8 +49,8 @@ app.get('/token', (req, res) => {
     const { bot_user_id, bot_access_token } = response.bot
     res.send(
       `<h1>welcome to the token endpoint!</h1>
-      <p>your bot_user_id is: ${bot_user_id}</p>
-      <p>your bot_access_token is:${bot_access_token}</p>`
+      <p>bot_user_id: ${bot_user_id}</p>
+      <p>bot_access_token: ${bot_access_token}</p>`
     );
   }).catch(err => {
     console.log('Err caught:', err);
