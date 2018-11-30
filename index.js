@@ -5,18 +5,29 @@ const utils = require('./utils.js');
 
 const port = process.env.PORT || 3001
 const host = process.env.HOST || 'localhost'
-const client_id = process.env.CLIENT_ID;
-const client_secret = process.env.CLIENT_SECRET;
+let client_id = process.env.CLIENT_ID;
+let client_secret = process.env.CLIENT_SECRET;
+let team_id = 'TEFH6JW6B'; // found by going to codybotauthtest.slack.com, inspecting the DOM, and ctrl+f for team_id
 const redirect_uri = 'http://localhost:3001/token';
 const stateVerification = 'cody@'; // random string
 
 
 
 app.get('/', (req, res) => {
-  res.json('welcome!');
+  res.sendFile(__dirname + '/index.html');
+  // res.json('welcome!');
 })
 
 app.get('/auth', (req, res) => {
+  if (req.query.client_id) client_id = req.query.client_id;
+  if (req.query.client_secret) client_secret = req.query.client_secret;
+  if (req.query.team_id) team_id = req.query.team_id;
+
+  console.log({
+    client_id,
+    client_secret,
+    team_id
+  })
   const base_url = 'https://slack.com/oauth/authorize'
 
   // space - separated list of OAuth scopes, indicating which parts of the
@@ -30,8 +41,8 @@ app.get('/auth', (req, res) => {
   // attacks by passing in a value that's unique to the user you're
   // authenticating and checking it when auth completes.
   const state = stateVerification // optional
-  const team = 'UEFTH6QBG'; // not 100% sure if this is the correct or even a valid team ID, found this by going to codybotauthtest.slack.com, inspecting the DOM, and ctrl+f for team_id --> seems to work!
-  res.redirect(`${base_url}?client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}&state=${state}&team=${team}`)
+
+  res.redirect(`${base_url}?client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}&state=${state}&team=${team_id}`)
 })
 
 app.get('/token', (req, res) => {
