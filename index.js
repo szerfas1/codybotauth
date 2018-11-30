@@ -9,7 +9,7 @@ let client_id = process.env.CLIENT_ID;
 let client_secret = process.env.CLIENT_SECRET;
 let team_id = 'TEFH6JW6B'; // found by going to codybotauthtest.slack.com, inspecting the DOM, and ctrl+f for team_id
 const redirect_uri = 'http://localhost:3001/token';
-const stateVerification = 'cody@'; // random string
+const stateVerification = 'cody@'; // random string (note: hardcoded this into Add to Slack app on client side; may not be best practice)
 
 
 
@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 })
 
+/* **** NOTE: THIS ENDPOINT AND THE FORM IS NO LONGER NEEDED BECUASE CAN USE SLACK BUTTON IN ITS PLACE * ****/
 app.get('/auth', (req, res) => {
   if (req.query.client_id) client_id = req.query.client_id;
   if (req.query.client_secret) client_secret = req.query.client_secret;
@@ -47,7 +48,6 @@ app.get('/auth', (req, res) => {
 app.get('/token', (req, res) => {
   const { code, state } = req.query;
 
-  // best practice to check state to ensure unauthorized third party not requesting access
   if (state !== stateVerification) throw new Error('State not verified');
 
   const base_url = 'https://slack.com/api/oauth.access'
