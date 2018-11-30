@@ -15,7 +15,6 @@ const stateVerification = 'cody@'; // random string
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
-  // res.json('welcome!');
 })
 
 app.get('/auth', (req, res) => {
@@ -49,7 +48,6 @@ app.get('/token', (req, res) => {
   const { code, state } = req.query;
 
   // best practice to check state to ensure unauthorized third party not requesting access
-  console.log('state is', state);
   if (state !== stateVerification) throw new Error('State not verified');
 
   const base_url = 'https://slack.com/api/oauth.access'
