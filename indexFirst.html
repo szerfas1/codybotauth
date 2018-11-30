@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <form id="myForm">
+      <h1>Codybot Authorization </h1>
+      <p>
+        Please enter required credentials below
+      </p>
+
+      <fieldset>
+        <p>
+          Client ID
+        </p>
+        <input type="text" id="clientId" name="clientId" />
+        <p>
+          Client Secret
+        </p>
+        <input type="text" id="clientSecret" name="clientSecret" />
+        <p>
+          Team ID
+        </p>
+        <p>
+          This can be found by going to the Slack web page of your slack team (e.g., codybotauthtest.slack.com), inspecting the
+          DOM, and ctrl+f for team_id
+        </p>
+        <input type="text" id="teamId" name="teamId" />
+      </fieldset>
+      <input type="submit" value="Add word"></input>
+    </form>
+    <script>
+      const form_el = document.getElementById("myForm");
+      let client_id = document.getElementById(clientId).value;
+      let client_secret = document.getElementById(clientSecret).value;
+      let team_id = document.getElementById(teamId).value;
+
+      form_el.addEventListener("submit", function (evt) {
+        evt.preventDefault();
+        fillArray();
+      });
+
+      function fillArray() {
+        const url = `${window.location}auth?client_id=${client_id}&client_secret=${client_secret}&team_id=${team_id}`
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", url);
+        xmlhttp.send(null);
+      }
+    </script>
+  </body>
+</html>
